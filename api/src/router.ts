@@ -1,45 +1,28 @@
-import { Request, Response, Router } from 'express';
-import { listCategories, createCategory } from './app/useCases';
+import { Router } from 'express';
+
+import { listCategories } from './app/useCases/categories/listCategories';
+import { createCategory } from './app/useCases/categories/createCategory';
+import { listProducts } from './app/useCases/products/listProducts';
+import { createProduct } from './app/useCases/products/createProduct';
+import { getProductByCategoryId } from './app/useCases/products/getProductByCategoryId';
+import { listOrders } from './app/useCases/orders/listOrders';
+import { createOrder } from './app/useCases/orders/createOrder';
+import { changeOrderStatus } from './app/useCases/orders/changeOrderStatus';
+import { cancelOrder } from './app/useCases/orders/cancelOrder';
 
 export const router = Router();
 
-// List Categories
+// Categories
 router.get('/categories', listCategories);
-
-// Create Category
 router.post('/categories', createCategory);
 
-// List Products
-router.get('/products', (req: Request, res: Response) => {
-  res.json({ status: 'OK' });
-});
+// Products
+router.get('/products', listProducts);
+router.post('/products', createProduct);
+router.get('/categories/:categoryId/products', getProductByCategoryId);
 
-// Create Product
-router.post('/products', (req: Request, res: Response) => {
-  res.json({ status: 'OK' });
-});
-
-// Get Produt by Category
-router.get('/categories/:categoryId/products', (req: Request, res: Response) => {
-  res.json({ status: 'OK' });
-});
-
-// List Orders
-router.get('/orders', (req: Request, res: Response) => {
-  res.json({ status: 'OK' });
-});
-
-// Create Order
-router.post('/orders', (req: Request, res: Response) => {
-  res.json({ status: 'OK' });
-});
-
-// Change Order status
-router.patch('/orders/:orderId', (req: Request, res: Response) => {
-  res.json({ status: 'OK' });
-});
-
-// Delete/Cancel Order
-router.delete('/orders/:orderId', (req: Request, res: Response) => {
-  res.json({ status: 'OK' });
-});
+// Orders
+router.get('/orders', listOrders);
+router.post('/orders', createOrder);
+router.patch('/orders/:orderId', changeOrderStatus);
+router.delete('/orders/:orderId', cancelOrder);

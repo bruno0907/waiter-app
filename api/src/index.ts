@@ -14,8 +14,8 @@ mongoose.connect(databaseUrl)
     console.log('🗳️ Conectado ao MongoDB!!!');
 
     app.use(router);
-    app.listen(3000, () => {
-      console.log('🔥 Server is running on http://localhost:3000!!!');
+    app.listen(3333, () => {
+      console.log('🔥 Server is running on http://localhost:3333!!!');
     });
   })
   .catch(() => console.log('❌ Erro ao se conectar ao MongoDB!!!'));
