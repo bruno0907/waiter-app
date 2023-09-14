@@ -1,4 +1,4 @@
-function App() {
+export function App() {
   return (
     <>
       <h1>Waiter App</h1>
@@ -6,4 +6,3 @@ function App() {
   )
 }
 
-export default App
