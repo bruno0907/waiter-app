@@ -11,7 +11,7 @@ const mock = {
         {
           product: {
             name: 'Pizza quatro queijos',
-            imagePath: '1668472896991-quatro-queijos.png',
+            imagePath: '1694636599692-quatro-queijos.png',
             price: 40,
           },
           quantity: 3,
@@ -20,7 +20,7 @@ const mock = {
         {
           product: {
             name: 'Coca cola',
-            imagePath: '1668473462705-coca-cola.png',
+            imagePath: '1694637444720-coca-cola.png',
             price: 7,
           },
           quantity: 2,
@@ -36,7 +36,7 @@ const mock = {
         {
           product: {
             name: 'Pizza quatro queijos',
-            imagePath: '1668472896991-quatro-queijos.png',
+            imagePath: '1694636599692-quatro-queijos.png',
             price: 40,
           },
           quantity: 3,
@@ -45,7 +45,7 @@ const mock = {
         {
           product: {
             name: 'Coca cola',
-            imagePath: '1668473462705-coca-cola.png',
+            imagePath: '1694637444720-coca-cola.png',
             price: 7,
           },
           quantity: 2,
@@ -58,11 +58,12 @@ const mock = {
     {
       _id: '3',
       table: 4,
+      status: 'IN_PRODUCTION',
       products: [
         {
           product: {
             name: 'Pizza quatro queijos',
-            imagePath: '1668472896991-quatro-queijos.png',
+            imagePath: '1694636599692-quatro-queijos.png',
             price: 40,
           },
           quantity: 3,
@@ -75,11 +76,12 @@ const mock = {
     {
       _id: '4',
       table: 1,
+      status: 'DONE',
       products: [
         {
           product: {
             name: 'Pizza quatro queijos',
-            imagePath: '1668472896991-quatro-queijos.png',
+            imagePath: '1694636599692-quatro-queijos.png',
             price: 40,
           },
           quantity: 3,
@@ -88,7 +90,7 @@ const mock = {
         {
           product: {
             name: 'Coca cola',
-            imagePath: '1668473462705-coca-cola.png',
+            imagePath: '1694637444720-coca-cola.png',
             price: 7,
           },
           quantity: 2,
@@ -99,11 +101,12 @@ const mock = {
     {
       _id: '5',
       table: 3,
+      status: 'DONE',
       products: [
         {
           product: {
             name: 'Pizza quatro queijos',
-            imagePath: '1668472896991-quatro-queijos.png',
+            imagePath: '1694636599692-quatro-queijos.png',
             price: 40,
           },
           quantity: 3,
@@ -112,7 +115,7 @@ const mock = {
         {
           product: {
             name: 'Coca cola',
-            imagePath: '1668473462705-coca-cola.png',
+            imagePath: '1694637444720-coca-cola.png',
             price: 7,
           },
           quantity: 2,
@@ -123,11 +126,12 @@ const mock = {
     {
       _id: '6',
       table: 7,
+      status: 'DONE',
       products: [
         {
           product: {
             name: 'Pizza quatro queijos',
-            imagePath: '1668472896991-quatro-queijos.png',
+            imagePath: '1694636599692-quatro-queijos.png',
             price: 40,
           },
           quantity: 3,
@@ -136,7 +140,7 @@ const mock = {
         {
           product: {
             name: 'Coca cola',
-            imagePath: '1668473462705-coca-cola.png',
+            imagePath: '1694637444720-coca-cola.png',
             price: 7,
           },
           quantity: 2,
