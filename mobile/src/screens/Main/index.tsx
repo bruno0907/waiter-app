@@ -1,3 +1,4 @@
+import { useState } from 'react';
 
 import { CategoriesContainer, Container, Footer, MenuContainer } from './styles';
 import { Header } from '../../components/Header';
@@ -9,6 +10,17 @@ import { Text } from '../../components/Text';
 import { TableModal } from '../../components/TableModal';
 
 export function Main() {
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [selectedTable, setSelectedTable] = useState('');
+
+  function handleModalVisibility(state: boolean) {
+    setIsModalVisible(state);
+  }
+
+  function handleSetSelectedTable(table: string) {
+    setSelectedTable(table);
+  }
+
   return (
     <>
       <SafeAreaView style={{ flex: 1 }}>
@@ -22,15 +34,18 @@ export function Main() {
           </MenuContainer>
         </Container>
         <Footer>
-          <Button
-            onPress={() => console.log('press')}
-          >
-            <Text weight="600" color="#fff">Novo pedido</Text>
-          </Button>
+          {!selectedTable && (
+            <Button onPress={() => handleModalVisibility(true)}>
+              <Text weight="600" color="#fff">Novo pedido</Text>
+            </Button>
+          )}
         </Footer>
       </SafeAreaView>
-
-      <TableModal />
+      <TableModal
+        visible={isModalVisible}
+        onClose={() => handleModalVisibility(false)}
+        onSelectTable={handleSetSelectedTable}
+      />
     </>
   );
 }
