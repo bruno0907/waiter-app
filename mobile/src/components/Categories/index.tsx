@@ -1,9 +1,10 @@
 
-import { Text } from '../Text';
+
 import { Category, Icon } from './styles';
 import { categories } from '../../mocks/categories';
 import { FlatList } from 'react-native';
 import { useState } from 'react';
+import { Text } from '../Text';
 
 export function Categories() {
   const [selectedCategory, setSelectedCategory] = useState<string>('');

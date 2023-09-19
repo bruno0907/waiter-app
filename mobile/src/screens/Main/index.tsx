@@ -4,6 +4,8 @@ import { Header } from '../../components/Header';
 import { SafeAreaView } from 'react-native';
 import { Categories } from '../../components/Categories';
 import { Menu } from '../../components/Menu';
+import { Button } from '../../components/Button';
+import { Text } from '../../components/Text';
 
 export function Main() {
   return (
@@ -17,7 +19,13 @@ export function Main() {
           <Menu />
         </MenuContainer>
       </Container>
-      <Footer />
+      <Footer>
+        <Button
+          onPress={() => console.log('press')}
+        >
+          <Text weight="600" color="#fff">Novo pedido</Text>
+        </Button>
+      </Footer>
     </SafeAreaView>
   );
 }
