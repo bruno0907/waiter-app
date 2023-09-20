@@ -15,6 +15,7 @@ export function TableModal({ visible, onClose, onSelectTable }: Props) {
   const [table, setTable] = useState('');
 
   function handleSaveTable(table: string) {
+    setTable('');
     onSelectTable(table);
     onClose();
   }

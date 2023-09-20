@@ -21,11 +21,15 @@ export function Main() {
     setSelectedTable(table);
   }
 
+  function handleCancelOrder() {
+    setSelectedTable('');
+  }
+
   return (
     <>
       <SafeAreaView style={{ flex: 1 }}>
         <Container>
-          <Header />
+          <Header selectedTable={selectedTable} onCancelOrder={handleCancelOrder} />
           <CategoriesContainer>
             <Categories />
           </CategoriesContainer>
