@@ -1,8 +1,8 @@
-import { FlatList, Modal, SafeAreaView, TouchableOpacity } from 'react-native';
+import { FlatList, Modal, SafeAreaView, View } from 'react-native';
 import { Text } from '../Text';
 import { Close } from '../Icons/Close';
 import { Button } from '../Button';
-import { Header, Container, Content, Footer, CloseButton, ProductImage, Ingredient, Price } from './styles';
+import { Header, Container, Content, Footer, CloseButton, ProductImage, Ingredient } from './styles';
 import { formatCurrency } from '../../utils/formatCurrency';
 
 export interface ProductProps {
@@ -66,10 +66,10 @@ export function ProductModal({ visible, onClose, product }: Props) {
 
         <SafeAreaView style={{ marginTop: 'auto' }}>
           <Footer>
-            <Price>
+            <View>
               <Text color="#666" weight="400" size={18}>Preço</Text>
               <Text weight="600" size={24}>{formatCurrency(product.price)}</Text>
-            </Price>
+            </View>
             <Button>
               <Text color="#fff" weight="600">Adicionar ao pedido</Text>
             </Button>

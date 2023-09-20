@@ -50,5 +50,3 @@ export const Footer = styled.View`
   align-items: center;
   justify-content: space-between;
 `;
-
-export const Price = styled.View``;

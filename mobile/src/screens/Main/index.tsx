@@ -8,10 +8,13 @@ import { Menu } from '../../components/Menu';
 import { Button } from '../../components/Button';
 import { Text } from '../../components/Text';
 import { TableModal } from '../../components/TableModal';
+import { Cart, CartItems } from '../../components/Cart';
 
 export function Main() {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedTable, setSelectedTable] = useState('');
+
+  const [cartItems, setCartItems] = useState<CartItems[]>([]);
 
   function handleModalVisibility(state: boolean) {
     setIsModalVisible(state);
@@ -42,6 +45,9 @@ export function Main() {
             <Button onPress={() => handleModalVisibility(true)}>
               <Text weight="600" color="#fff">Novo pedido</Text>
             </Button>
+          )}
+          {selectedTable && (
+            <Cart cartItems={cartItems} />
           )}
         </Footer>
       </SafeAreaView>
