@@ -1,22 +1,22 @@
 import { useEffect, useState } from 'react';
-
-import { CategoriesContainer, Container, Footer, MenuContainer } from './styles';
-import { Header } from '../../components/Header';
 import { ActivityIndicator, Alert, SafeAreaView } from 'react-native';
+
+import { Header } from '../../components/Header';
 import { Categories } from '../../components/Categories';
 import { Menu } from '../../components/Menu';
 import { Button } from '../../components/Button';
 import { Text } from '../../components/Text';
 import { TableModal } from '../../components/TableModal';
 import { Cart } from '../../components/Cart';
-import { Empty } from '../../components/Icons/Empty';
+import { CenteredContainer } from '../../components/CenteredContainer';
+
+import { api } from '../../services/api';
+
+import { CategoriesContainer, Container, Footer, MenuContainer } from './styles';
 
 import { Product } from '../../types/Product';
 import { CartItem } from '../../types/CartItem';
 import { Category } from '../../types/Category';
-
-import { api } from '../../services/api';
-import { CenteredContainer } from '../../components/CenteredContainer';
 
 export function Main() {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -148,6 +148,7 @@ export function Main() {
           {selectedTable && (
             <Cart
               cartItems={cartItems}
+              selectedTable={selectedTable}
               onAddToCart={handleAddToCart}
               onRemoveFromCart={handleRemoveFromCart}
               onConfirmOrder={handleEmptyOrder}

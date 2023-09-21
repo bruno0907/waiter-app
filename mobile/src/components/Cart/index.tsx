@@ -9,16 +9,19 @@ import { useMemo, useState } from 'react';
 import { OrderConfirmModal } from '../OrderConfirmedModal';
 import { Product } from '../../types/Product';
 import { CartItem } from '../../types/CartItem';
+import { api } from '../../services/api';
 
 interface Props {
   cartItems: CartItem[];
+  selectedTable: string;
   onAddToCart: (product: Product) => void
   onRemoveFromCart: (productId: string) => void
   onConfirmOrder: () => void
 }
 
-export function Cart({ cartItems, onAddToCart, onRemoveFromCart, onConfirmOrder }: Props) {
+export function Cart({ cartItems, selectedTable, onAddToCart, onRemoveFromCart, onConfirmOrder }: Props) {
   const [isConfirmModalVisible, setIsConfirmModalVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const cartTotal = useMemo(() => {
     return cartItems.reduce((acc, cartItem) => {
@@ -26,7 +29,24 @@ export function Cart({ cartItems, onAddToCart, onRemoveFromCart, onConfirmOrder 
     }, 0);
   }, [cartItems]);
 
-  function handleConfirmOrder() {
+  async function handleConfirmOrder() {
+    setIsLoading(true);
+
+    const products = cartItems.map((cartItem) => {
+      return {
+        product: cartItem.product._id,
+        quantity: cartItem.quantity
+      };
+    });
+
+    const payload = {
+      table: selectedTable,
+      products
+    };
+
+    await api.post('/orders', payload);
+
+    setIsLoading(false);
     setIsConfirmModalVisible(true);
   }
 
@@ -82,7 +102,7 @@ export function Cart({ cartItems, onAddToCart, onRemoveFromCart, onConfirmOrder 
             <Text weight="400" color="#666">Seu carrinho {'\n'}está vazio</Text>
           )}
         </Total>
-        <Button disabled={!cartItems.length} onPress={handleConfirmOrder} isLoading={false}>
+        <Button disabled={!cartItems.length} onPress={handleConfirmOrder} isLoading={isLoading}>
           <Text weight="600" color="#fff">Confirmar pedido</Text>
         </Button>
       </Footer>
