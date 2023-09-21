@@ -6,7 +6,8 @@ import { PlusCircle } from '../Icons/PlusCircle';
 import { MinusCircle } from '../Icons/MinusCircle';
 import { formatCurrency } from '../../utils/formatCurrency';
 import { Button } from '../Button';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
+import { OrderConfirmModal } from '../OrderConfirmedModal';
 
 export interface CartItems {
   product: ProductProps
@@ -17,9 +18,11 @@ interface Props {
   cartItems: CartItems[];
   onAddToCart: (product: ProductProps) => void
   onRemoveFromCart: (productId: string) => void
+  onConfirmOrder: () => void
 }
 
-export function Cart({ cartItems, onAddToCart, onRemoveFromCart }: Props) {
+export function Cart({ cartItems, onAddToCart, onRemoveFromCart, onConfirmOrder }: Props) {
+  const [isConfirmModalVisible, setIsConfirmModalVisible] = useState(false);
 
   const cartTotal = useMemo(() => {
     return cartItems.reduce((acc, cartItem) => {
@@ -27,8 +30,19 @@ export function Cart({ cartItems, onAddToCart, onRemoveFromCart }: Props) {
     }, 0);
   }, [cartItems]);
 
+  function handleConfirmOrder() {
+    setIsConfirmModalVisible(true);
+  }
+
+  function handleOk() {
+    onConfirmOrder();
+    setIsConfirmModalVisible(false);
+  }
+
   return (
     <Container>
+
+      <OrderConfirmModal isVisible={isConfirmModalVisible} onOk={handleOk} />
 
       {cartItems.length > 0 && (
         <FlatList
@@ -72,7 +86,7 @@ export function Cart({ cartItems, onAddToCart, onRemoveFromCart }: Props) {
             <Text weight="400" color="#666">Seu carrinho {'\n'}está vazio</Text>
           )}
         </Total>
-        <Button disabled={!cartItems.length}>
+        <Button disabled={!cartItems.length} onPress={handleConfirmOrder} isLoading={true}>
           <Text weight="600" color="#fff">Confirmar pedido</Text>
         </Button>
       </Footer>
