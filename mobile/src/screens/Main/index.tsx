@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, Alert, SafeAreaView } from 'react-native';
-
 import { Header } from '../../components/Header';
 import { Categories } from '../../components/Categories';
 import { Menu } from '../../components/Menu';
@@ -9,11 +8,8 @@ import { Text } from '../../components/Text';
 import { TableModal } from '../../components/TableModal';
 import { Cart } from '../../components/Cart';
 import { CenteredContainer } from '../../components/CenteredContainer';
-
 import { api } from '../../services/api';
-
 import { CategoriesContainer, Container, Footer, MenuContainer } from './styles';
-
 import { Product } from '../../types/Product';
 import { CartItem } from '../../types/CartItem';
 import { Category } from '../../types/Category';

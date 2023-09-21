@@ -1,9 +1,9 @@
 
 
-import { CategoryContainer, Icon } from './styles';
-import { FlatList } from 'react-native';
 import { useState } from 'react';
+import { FlatList } from 'react-native';
 import { Text } from '../Text';
+import { CategoryContainer, Icon } from './styles';
 import { Category } from '../../types/Category';
 
 interface Props {

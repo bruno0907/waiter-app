@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { Modal, Platform, TouchableOpacity } from 'react-native';
 import { Text } from '../Text';
+import { Button } from '../Button';
 import { Body, Form, Header, Overlay, Input } from './styles';
 import { Close } from '../Icons/Close';
-import { Button } from '../Button';
 
 interface Props {
   visible: boolean

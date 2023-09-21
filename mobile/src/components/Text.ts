@@ -1,6 +1,6 @@
 
-import { TextProps } from 'react-native';
 import styled from 'styled-components/native';
+import { TextProps } from 'react-native';
 
 interface Props extends TextProps {
   weight?: '400' | '600' | '700';

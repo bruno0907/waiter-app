@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import { ActivityIndicator, TouchableOpacityProps } from 'react-native';
+
 import { Container } from './styles';
 
 interface Props extends TouchableOpacityProps {

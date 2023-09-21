@@ -1,9 +1,9 @@
 import { FlatList, Modal, SafeAreaView, View } from 'react-native';
 import { Text } from '../Text';
-import { Close } from '../Icons/Close';
 import { Button } from '../Button';
-import { Header, Container, Content, Footer, CloseButton, ProductImage, Ingredient } from './styles';
 import { formatCurrency } from '../../utils/formatCurrency';
+import { Header, Container, Content, Footer, CloseButton, ProductImage, Ingredient } from './styles';
+import { Close } from '../Icons/Close';
 import { Product } from '../../types/Product';
 
 interface Props {

@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { ActivityIndicator, FlatList } from 'react-native';
-import { ProductContainer, Image, Details, Separator, AddToCartButton } from './styles';
 import { Text } from '../Text';
-import { formatCurrency } from '../../utils/formatCurrency';
-import { PlusCircle } from '../Icons/PlusCircle';
-import { ProductModal } from '../ProductModal';
-import { Product } from '../../types/Product';
-import { Empty } from '../Icons/Empty';
 import { CenteredContainer } from '../CenteredContainer';
+import { formatCurrency } from '../../utils/formatCurrency';
+import { ProductModal } from '../ProductModal';
+import { ProductContainer, Image, Details, Separator, AddToCartButton } from './styles';
+import { PlusCircle } from '../Icons/PlusCircle';
+import { Empty } from '../Icons/Empty';
+import { Product } from '../../types/Product';
 
 interface Props {
   onAddToCart: (product: Product) => void;

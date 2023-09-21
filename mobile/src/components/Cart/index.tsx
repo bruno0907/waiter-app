@@ -1,15 +1,15 @@
+import { useMemo, useState } from 'react';
 import { FlatList, TouchableOpacity } from 'react-native';
 import { Text } from '../Text';
+import { Button } from '../Button';
+import { OrderConfirmModal } from '../OrderConfirmedModal';
+import { formatCurrency } from '../../utils/formatCurrency';
+import { api } from '../../services/api';
 import { Container, Actions, Details, Image, ProductContainer, Footer, Total } from './styles';
 import { PlusCircle } from '../Icons/PlusCircle';
 import { MinusCircle } from '../Icons/MinusCircle';
-import { formatCurrency } from '../../utils/formatCurrency';
-import { Button } from '../Button';
-import { useMemo, useState } from 'react';
-import { OrderConfirmModal } from '../OrderConfirmedModal';
 import { Product } from '../../types/Product';
 import { CartItem } from '../../types/CartItem';
-import { api } from '../../services/api';
 
 interface Props {
   cartItems: CartItem[];

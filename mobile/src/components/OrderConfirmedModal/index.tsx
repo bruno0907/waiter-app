@@ -1,8 +1,8 @@
 import { Modal } from 'react-native';
+import { CenteredContainer } from '../CenteredContainer';
 import { Text } from '../Text';
 import { Button } from '../Button';
 import { CheckCircle } from '../Icons/CheckCircle';
-import { CenteredContainer } from '../CenteredContainer';
 
 interface Props {
   isVisible: boolean;
