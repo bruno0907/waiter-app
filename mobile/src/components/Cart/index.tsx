@@ -1,22 +1,18 @@
 import { FlatList, TouchableOpacity } from 'react-native';
 import { Text } from '../Text';
-import { ProductProps } from '../ProductModal';
-import { Container, Actions, Details, Image, Product, Footer, Total } from './styles';
+import { Container, Actions, Details, Image, ProductContainer, Footer, Total } from './styles';
 import { PlusCircle } from '../Icons/PlusCircle';
 import { MinusCircle } from '../Icons/MinusCircle';
 import { formatCurrency } from '../../utils/formatCurrency';
 import { Button } from '../Button';
 import { useMemo, useState } from 'react';
 import { OrderConfirmModal } from '../OrderConfirmedModal';
-
-export interface CartItems {
-  product: ProductProps
-  quantity: number
-}
+import { Product } from '../../types/Product';
+import { CartItem } from '../../types/CartItem';
 
 interface Props {
-  cartItems: CartItems[];
-  onAddToCart: (product: ProductProps) => void
+  cartItems: CartItem[];
+  onAddToCart: (product: Product) => void
   onRemoveFromCart: (productId: string) => void
   onConfirmOrder: () => void
 }
@@ -51,7 +47,7 @@ export function Cart({ cartItems, onAddToCart, onRemoveFromCart, onConfirmOrder 
           showsVerticalScrollIndicator={false}
           style={{ marginBottom: 20, maxHeight: 200 }}
           renderItem={({ item: cartItem }) => (
-            <Product>
+            <ProductContainer>
               <Image
                 source={{
                   uri: `http://192.168.1.159:3333/uploads/${cartItem.product.imagePath}`
@@ -70,7 +66,7 @@ export function Cart({ cartItems, onAddToCart, onRemoveFromCart, onConfirmOrder 
                   <MinusCircle />
                 </TouchableOpacity>
               </Actions>
-            </Product>
+            </ProductContainer>
           )}
         />
       )}
@@ -86,7 +82,7 @@ export function Cart({ cartItems, onAddToCart, onRemoveFromCart, onConfirmOrder 
             <Text weight="400" color="#666">Seu carrinho {'\n'}está vazio</Text>
           )}
         </Total>
-        <Button disabled={!cartItems.length} onPress={handleConfirmOrder} isLoading={true}>
+        <Button disabled={!cartItems.length} onPress={handleConfirmOrder} isLoading={false}>
           <Text weight="600" color="#fff">Confirmar pedido</Text>
         </Button>
       </Footer>

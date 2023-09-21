@@ -4,25 +4,13 @@ import { Close } from '../Icons/Close';
 import { Button } from '../Button';
 import { Header, Container, Content, Footer, CloseButton, ProductImage, Ingredient } from './styles';
 import { formatCurrency } from '../../utils/formatCurrency';
-
-export interface ProductProps {
-  _id: string
-  name: string
-  description: string
-  imagePath: string
-  price: number
-  ingredients: {
-    name: string
-    icon: string
-    _id: string
-  }[],
-}
+import { Product } from '../../types/Product';
 
 interface Props {
   visible: boolean
   onClose: () => void
-  product: ProductProps
-  onAddToCart: (product: ProductProps) => void;
+  product: Product
+  onAddToCart: (product: Product) => void;
 }
 
 export function ProductModal({ visible, onClose, product, onAddToCart }: Props) {

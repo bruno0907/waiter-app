@@ -1,8 +1,8 @@
 import { Modal } from 'react-native';
-import { Container } from './styles';
 import { Text } from '../Text';
 import { Button } from '../Button';
 import { CheckCircle } from '../Icons/CheckCircle';
+import { CenteredContainer } from '../CenteredContainer';
 
 interface Props {
   isVisible: boolean;
@@ -12,14 +12,14 @@ interface Props {
 export function OrderConfirmModal({ isVisible, onOk }: Props) {
   return (
     <Modal visible={isVisible} animationType='fade'>
-      <Container>
+      <CenteredContainer bgColor="#D73035">
         <CheckCircle />
         <Text size={20} color="#fff" weight="600">Pedido confirmado</Text>
         <Text  color="#fff">O pedido já entrou na fila de produção!</Text>
         <Button onPress={onOk} variant="secondary" style={{ marginTop: 24 }}>
           <Text color="#d73035" weight="600">OK</Text>
         </Button>
-      </Container>
+      </CenteredContainer>
     </Modal>
   );
 }

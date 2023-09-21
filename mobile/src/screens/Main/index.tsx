@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-import { CategoriesContainer, Container, Footer, CenteredContainer, MenuContainer } from './styles';
+import { CategoriesContainer, Container, Footer, MenuContainer } from './styles';
 import { Header } from '../../components/Header';
 import { ActivityIndicator, Alert, SafeAreaView } from 'react-native';
 import { Categories } from '../../components/Categories';
@@ -8,19 +8,25 @@ import { Menu } from '../../components/Menu';
 import { Button } from '../../components/Button';
 import { Text } from '../../components/Text';
 import { TableModal } from '../../components/TableModal';
-import { Cart, CartItems } from '../../components/Cart';
-import { ProductProps } from '../../components/ProductModal';
+import { Cart } from '../../components/Cart';
 import { Empty } from '../../components/Icons/Empty';
 
-import { products as mockProducts } from '../../mocks/products';
+import { Product } from '../../types/Product';
+import { CartItem } from '../../types/CartItem';
+import { Category } from '../../types/Category';
+
+import { api } from '../../services/api';
+import { CenteredContainer } from '../../components/CenteredContainer';
 
 export function Main() {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedTable, setSelectedTable] = useState('');
-  const [isLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingProducts, setIsLoadingProducts] = useState(false);
 
-  const [products] = useState<ProductProps[]>([]);
-  const [cartItems, setCartItems] = useState<CartItems[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
   function handleModalVisibility(state: boolean) {
     setIsModalVisible(state);
@@ -35,7 +41,7 @@ export function Main() {
     setCartItems([]);
   }
 
-  function handleAddToCart(product: ProductProps) {
+  function handleAddToCart(product: Product) {
     if(!selectedTable) return Alert.alert('Inicie um novo pedido ou selecione uma mesa em aberto.');
 
     setCartItems(prevState => {
@@ -75,6 +81,33 @@ export function Main() {
 
   }
 
+  async function handleSelectCategory(categoryId: string) {
+    const route = !categoryId ? '/products' : `/categories/${categoryId}/products`;
+
+    setIsLoadingProducts(true);
+
+    const { data } = await api.get(route);
+
+    setProducts(data);
+    setIsLoadingProducts(false);
+  }
+
+  useEffect(() => {
+    setIsLoading(true);
+
+    Promise.all([
+      api.get('/categories'),
+      api.get('/products'),
+    ]).then(([ categoriesResponse, productsResponse ]) => {
+      setCategories(categoriesResponse.data);
+      setProducts(productsResponse.data);
+    }).catch(error => {
+      console.error(error);
+      Alert.alert('Ocorreu um erro');
+    }).finally(() => setIsLoading(false));
+
+  }, []);
+
   return (
     <>
       <SafeAreaView style={{ flex: 1 }}>
@@ -90,19 +123,12 @@ export function Main() {
           {!isLoading && (
             <>
               <CategoriesContainer>
-                <Categories />
+                <Categories categories={categories} onSelectCategory={handleSelectCategory} />
               </CategoriesContainer>
 
-              {!products.length ? (
-                <CenteredContainer>
-                  <Empty />
-                  <Text color="#666" style={{ marginTop: 24 }}>Nenum produto encontrado!</Text>
-                </CenteredContainer>
-              ) : (
-                <MenuContainer>
-                  <Menu onAddToCart={handleAddToCart} products={products} />
-                </MenuContainer>
-              )}
+              <MenuContainer>
+                <Menu onAddToCart={handleAddToCart} products={products} isLoadingProducts={isLoadingProducts} />
+              </MenuContainer>
             </>
           )}
 
@@ -118,6 +144,7 @@ export function Main() {
               <Text weight="600" color="#fff">Novo pedido</Text>
             </Button>
           )}
+
           {selectedTable && (
             <Cart
               cartItems={cartItems}

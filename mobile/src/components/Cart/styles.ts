@@ -2,7 +2,7 @@ import styled from 'styled-components/native';
 
 export const Container = styled.SafeAreaView``;
 
-export const Product = styled.View`
+export const ProductContainer = styled.View`
   flex-direction: row;
   padding: 8px 0;
   gap: 4px;
