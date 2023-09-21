@@ -64,7 +64,7 @@ export function Main() {
     setCartItems(prevState => {
       const productQuantityOnCart = prevState.find(prevProd => prevProd.product._id === productId)?.quantity;
 
-      if(productQuantityOnCart >= 1) {
+      if(productQuantityOnCart <= 1) {
         return prevState.filter(prevProd => prevProd.product._id !== productId);
       }
 
