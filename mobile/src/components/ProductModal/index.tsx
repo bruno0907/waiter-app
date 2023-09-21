@@ -22,10 +22,16 @@ interface Props {
   visible: boolean
   onClose: () => void
   product: ProductProps
+  onAddToCart: (product: ProductProps) => void;
 }
 
-export function ProductModal({ visible, onClose, product }: Props) {
+export function ProductModal({ visible, onClose, product, onAddToCart }: Props) {
   if(!product) return null;
+
+  function handleAddProductToCart() {
+    onAddToCart(product);
+    onClose();
+  }
 
   return (
     <Modal visible={visible} animationType='slide' presentationStyle='pageSheet' onRequestClose={onClose}>
@@ -70,7 +76,7 @@ export function ProductModal({ visible, onClose, product }: Props) {
               <Text color="#666" weight="400" size={18}>Preço</Text>
               <Text weight="600" size={24}>{formatCurrency(product.price)}</Text>
             </View>
-            <Button>
+            <Button onPress={handleAddProductToCart}>
               <Text color="#fff" weight="600">Adicionar ao pedido</Text>
             </Button>
           </Footer>

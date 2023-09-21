@@ -7,7 +7,11 @@ import { formatCurrency } from '../../utils/formatCurrency';
 import { PlusCircle } from '../Icons/PlusCircle';
 import { ProductProps, ProductModal } from '../ProductModal';
 
-export function Menu() {
+interface Props {
+  onAddToCart: (product: ProductProps) => void;
+}
+
+export function Menu({ onAddToCart }: Props) {
   const [selectedProduct, setSelectedProduct] = useState<ProductProps | null>(null);
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 
@@ -26,7 +30,10 @@ export function Menu() {
         keyExtractor={product => product._id}
         ItemSeparatorComponent={Separator}
         renderItem={({ item: product }) => (
-          <Product activeOpacity={0.7} onPress={() => handleSelectProduct(product)}>
+          <Product
+            activeOpacity={0.7}
+            onPress={() => handleSelectProduct(product)}
+          >
             <Image source={{
               uri: `http://192.168.1.159:3333/uploads/${product.imagePath}`,
             }} />
@@ -36,7 +43,7 @@ export function Menu() {
               <Text weight="600" size={14}>{formatCurrency(product.price)}</Text>
             </Details>
 
-            <AddToCartButton activeOpacity={0.7} onPress={() => console.log(product._id, 1)}>
+            <AddToCartButton activeOpacity={0.7} onPress={() => onAddToCart(product)}>
               <PlusCircle />
             </AddToCartButton>
           </Product>
@@ -46,6 +53,7 @@ export function Menu() {
         product={selectedProduct}
         visible={isModalVisible}
         onClose={() => setIsModalVisible(false)}
+        onAddToCart={onAddToCart}
       />
     </>
   );

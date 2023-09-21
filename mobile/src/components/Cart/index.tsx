@@ -1,7 +1,7 @@
-import { FlatList, TouchableOpacity, View } from 'react-native';
+import { FlatList, TouchableOpacity } from 'react-native';
 import { Text } from '../Text';
 import { ProductProps } from '../ProductModal';
-import { Container, Actions, Details, Image, Product, Footer, EmptyCart, Total } from './styles';
+import { Container, Actions, Details, Image, Product, Footer, Total } from './styles';
 import { PlusCircle } from '../Icons/PlusCircle';
 import { MinusCircle } from '../Icons/MinusCircle';
 import { formatCurrency } from '../../utils/formatCurrency';
@@ -15,9 +15,11 @@ export interface CartItems {
 
 interface Props {
   cartItems: CartItems[];
+  onAddToCart: (product: ProductProps) => void
+  onRemoveFromCart: (productId: string) => void
 }
 
-export function Cart({ cartItems }: Props) {
+export function Cart({ cartItems, onAddToCart, onRemoveFromCart }: Props) {
 
   const cartTotal = useMemo(() => {
     return cartItems.reduce((acc, cartItem) => {
@@ -44,13 +46,13 @@ export function Cart({ cartItems }: Props) {
               <Text size={14} color="#666" weight="400">{cartItem.quantity}x</Text>
               <Details>
                 <Text color="#333" weight="600">{cartItem.product.name}</Text>
-                <Text color="666" weight="400">{formatCurrency(cartItem.product.price)}</Text>
+                <Text color="#666" weight="400">{formatCurrency(cartItem.product.price)}</Text>
               </Details>
               <Actions>
-                <TouchableOpacity activeOpacity={0.7}>
+                <TouchableOpacity activeOpacity={0.7} onPress={() => onAddToCart(cartItem.product)}>
                   <PlusCircle />
                 </TouchableOpacity>
-                <TouchableOpacity activeOpacity={0.7}>
+                <TouchableOpacity activeOpacity={0.7} onPress={() => onRemoveFromCart(cartItem.product._id)}>
                   <MinusCircle />
                 </TouchableOpacity>
               </Actions>
