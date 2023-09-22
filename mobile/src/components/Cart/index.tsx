@@ -79,11 +79,11 @@ export function Cart({ cartItems, selectedTable, onAddToCart, onRemoveFromCart, 
                 <Text color="#666" weight="400">{formatCurrency(cartItem.product.price)}</Text>
               </Details>
               <Actions>
-                <TouchableOpacity activeOpacity={0.7} onPress={() => onAddToCart(cartItem.product)}>
-                  <PlusCircle />
-                </TouchableOpacity>
                 <TouchableOpacity activeOpacity={0.7} onPress={() => onRemoveFromCart(cartItem.product._id)}>
                   <MinusCircle />
+                </TouchableOpacity>
+                <TouchableOpacity activeOpacity={0.7} onPress={() => onAddToCart(cartItem.product)}>
+                  <PlusCircle />
                 </TouchableOpacity>
               </Actions>
             </ProductContainer>
