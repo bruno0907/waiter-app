@@ -11,7 +11,7 @@ interface ModalProps {
   isLoading: boolean;
   order: Order | null;
   onClose: () => void;
-  onCancelOrder: (orderId: string) => Promise<void>;
+  onCancelOrder: (order: Order) => Promise<void>;
   onUpdateOrderStatus: (order: Order) => Promise<void>;
 }
 
@@ -21,8 +21,8 @@ export function OrderModal ({ isVisible, isLoading, order, onClose, onCancelOrde
     return acc + (products.product.price * products.quantity)
   }, 0) ?? 0
 
-  async function handleCancelOrder(orderId: string) {
-    await onCancelOrder(orderId)
+  async function handleCancelOrder(order: Order) {
+    await onCancelOrder(order)
     onClose()
   }
 
@@ -107,7 +107,7 @@ export function OrderModal ({ isVisible, isLoading, order, onClose, onCancelOrde
           {order.status !== 'CANCELED' && (
             <button
               className="secondary"
-              onClick={() => handleCancelOrder(order._id)}
+              onClick={() => handleCancelOrder(order)}
               disabled={isLoading}
             >
               {isLoading && 'Aguarde...'}
