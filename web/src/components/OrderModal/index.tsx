@@ -1,44 +1,34 @@
 import { useEffect } from "react";
 import { boardProps } from "../../assets/constants/BoardProps";
 import { formatCurrency } from "../../utils/formatCurrency";
-import { Order } from "../OrdersBoard";
+
 import { Container, Overlay } from "./style";
 import closeIcon from '../../assets/images/close-icon.svg'
+import { Order } from "../../types/Order";
 
 interface ModalProps {
   isVisible: boolean;
+  isLoading: boolean;
   order: Order | null;
   onClose: () => void;
+  onCancelOrder: (orderId: string) => Promise<void>;
+  onUpdateOrderStatus: (order: Order) => Promise<void>;
 }
 
-export function OrderModal ({ isVisible, order, onClose }: ModalProps) {
+export function OrderModal ({ isVisible, isLoading, order, onClose, onCancelOrder, onUpdateOrderStatus }: ModalProps) {
 
   const total = order?.products.reduce((acc, products) => {
     return acc + (products.product.price * products.quantity)
   }, 0) ?? 0
 
   async function handleCancelOrder(orderId: string) {
-    console.log('canceled order: ' ,{ orderId })
+    await onCancelOrder(orderId)
     onClose()
   }
 
   async function handleUpdateOrderStatus(order: Order) {
-    let orderStatus
-
-    if(order.status === 'WAITING') {
-      orderStatus = 'IN_PRODUCTION'
-    }
-
-    if(order.status === 'IN_PRODUCTION') {
-      orderStatus = 'DONE'
-    }
-
-    const updatedOrder = {
-      _id: order._id,
-      status: orderStatus
-    }
-
-    console.log('updated order status: ', { updatedOrder })
+    await onUpdateOrderStatus(order);
+    onClose();
   }
 
   useEffect(() => {
@@ -96,20 +86,34 @@ export function OrderModal ({ isVisible, order, onClose }: ModalProps) {
             <button
               className="primary"
               onClick={() => handleUpdateOrderStatus(order)}
-            >👩‍🍳 Iniciar Produção</button>
+              disabled={isLoading}
+            >
+              {isLoading && 'Aguarde...'}
+              {!isLoading && '👩‍🍳 Iniciar Produção'}
+            </button>
           )}
 
           {order.status === 'IN_PRODUCTION' && (
             <button
               className="primary"
               onClick={() => handleUpdateOrderStatus(order)}
-            >✅ Concluir Pedido</button>
+              disabled={isLoading}
+            >
+              {isLoading && 'Aguarde...'}
+              {!isLoading && '✅ Concluir Pedido'}
+            </button>
           )}
 
-          <button
-            className="secondary"
-            onClick={() => handleCancelOrder(order._id)}
-          >❌ Cancelar Pedido</button>
+          {order.status !== 'CANCELED' && (
+            <button
+              className="secondary"
+              onClick={() => handleCancelOrder(order._id)}
+              disabled={isLoading}
+            >
+              {isLoading && 'Aguarde...'}
+              {!isLoading && '❌ Cancelar Pedido'}
+            </button>
+          )}
         </footer>
 
       </Container>
