@@ -11,9 +11,10 @@ interface OrdersBoardProps {
   orders: Order[];
   status: OrderStatus;
   onUpdateOrCancelOrder: (orderId: string, status: OrderStatus) => void;
+  onDeleteOrder: (orderId: string) => void;
 }
 
-export function OrdersBoard({ orders, status, onUpdateOrCancelOrder }: OrdersBoardProps) {
+export function OrdersBoard({ orders, status, onUpdateOrCancelOrder, onDeleteOrder }: OrdersBoardProps) {
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [order, setOrder] = useState<Order | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -47,11 +48,23 @@ export function OrdersBoard({ orders, status, onUpdateOrCancelOrder }: OrdersBoa
       status = 'DONE'
     }
 
+    if(order.status === 'CANCELED') {
+      status = 'WAITING'
+    }
+
     setIsLoading(true);
     await api.patch(`/orders/${order._id}/update_status`, { status })
     setIsLoading(false);
     onUpdateOrCancelOrder(order._id, status as OrderStatus)
     toast.success(`O status do pedido da mesa ${order.table} foi atualizado!`)
+  }
+
+  async function handleDeleteOrder(orderId: string) {
+    setIsLoading(true)
+    await api.delete(`/orders/${orderId}`);
+    setIsLoading(false);
+    onDeleteOrder(orderId);
+    toast.success(`Pedido excluído com sucesso!`);
   }
 
   return (
@@ -82,6 +95,7 @@ export function OrdersBoard({ orders, status, onUpdateOrCancelOrder }: OrdersBoa
         order={order}
         onCancelOrder={handleCancelOrder}
         onUpdateOrderStatus={handleUpdateOrderStatus}
+        onDeleteOrder={handleDeleteOrder}
       />
     </>
   )

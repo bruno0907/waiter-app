@@ -13,9 +13,10 @@ interface ModalProps {
   onClose: () => void;
   onCancelOrder: (order: Order) => Promise<void>;
   onUpdateOrderStatus: (order: Order) => Promise<void>;
+  onDeleteOrder: (orderId: string) => Promise<void>;
 }
 
-export function OrderModal ({ isVisible, isLoading, order, onClose, onCancelOrder, onUpdateOrderStatus }: ModalProps) {
+export function OrderModal ({ isVisible, isLoading, order, onClose, onCancelOrder, onUpdateOrderStatus, onDeleteOrder }: ModalProps) {
 
   const total = order?.products.reduce((acc, products) => {
     return acc + (products.product.price * products.quantity)
@@ -28,6 +29,11 @@ export function OrderModal ({ isVisible, isLoading, order, onClose, onCancelOrde
 
   async function handleUpdateOrderStatus(order: Order) {
     await onUpdateOrderStatus(order);
+    onClose();
+  }
+
+  async function handleDeleteOrder(orderId: string) {
+    await onDeleteOrder(orderId);
     onClose();
   }
 
@@ -81,40 +87,63 @@ export function OrderModal ({ isVisible, isLoading, order, onClose, onCancelOrde
           <strong>{formatCurrency(total)}</strong>
         </div>
 
-        <footer>
-          {order.status === 'WAITING' && (
-            <button
-              className="primary"
-              onClick={() => handleUpdateOrderStatus(order)}
-              disabled={isLoading}
-            >
-              {isLoading && 'Aguarde...'}
-              {!isLoading && '👩‍🍳 Iniciar Produção'}
-            </button>
-          )}
+        {order.status !== 'DONE' && (
+          <footer>
+            {order.status === 'WAITING' && (
+              <button
+                className="primary"
+                onClick={() => handleUpdateOrderStatus(order)}
+                disabled={isLoading}
+              >
+                {isLoading && 'Aguarde...'}
+                {!isLoading && '👩‍🍳 Iniciar Produção'}
+              </button>
+            )}
 
-          {order.status === 'IN_PRODUCTION' && (
-            <button
-              className="primary"
-              onClick={() => handleUpdateOrderStatus(order)}
-              disabled={isLoading}
-            >
-              {isLoading && 'Aguarde...'}
-              {!isLoading && '✅ Concluir Pedido'}
-            </button>
-          )}
+            {order.status === 'IN_PRODUCTION' && (
+              <button
+                className="primary"
+                onClick={() => handleUpdateOrderStatus(order)}
+                disabled={isLoading}
+              >
+                {isLoading && 'Aguarde...'}
+                {!isLoading && '✅ Concluir Pedido'}
+              </button>
+            )}
 
-          {order.status !== 'CANCELED' && (
-            <button
-              className="secondary"
-              onClick={() => handleCancelOrder(order)}
-              disabled={isLoading}
-            >
-              {isLoading && 'Aguarde...'}
-              {!isLoading && '❌ Cancelar Pedido'}
-            </button>
-          )}
-        </footer>
+            {order.status !== 'CANCELED' && (
+              <button
+                className="secondary"
+                onClick={() => handleCancelOrder(order)}
+                disabled={isLoading}
+              >
+                {isLoading && 'Aguarde...'}
+                {!isLoading && '❌ Cancelar Pedido'}
+              </button>
+            )}
+
+            {order.status === 'CANCELED' && (
+              <>
+                <button
+                  className="primary"
+                  onClick={() => handleUpdateOrderStatus(order)}
+                  disabled={isLoading}
+                >
+                  {isLoading && 'Aguarde...'}
+                  {!isLoading && '✅ Reabrir Pedido'}
+                </button>
+                <button
+                  className="secondary"
+                  onClick={() => handleDeleteOrder(order._id)}
+                  disabled={isLoading}
+                >
+                  {isLoading && 'Aguarde...'}
+                  {!isLoading && '❌ Excluir Pedido'}
+                </button>
+              </>
+            )}
+          </footer>
+        )}
 
       </Container>
     </Overlay>

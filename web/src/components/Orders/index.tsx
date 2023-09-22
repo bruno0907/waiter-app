@@ -4,10 +4,25 @@ import { OrdersBoard } from "../OrdersBoard";
 import { Container } from "./styles";
 import { api } from "../../services/api";
 import { OrderStatus } from "../../types/OrderStatus";
+import socketIo from 'socket.io-client';
+import { toast } from 'react-toastify'
 
 export function Orders () {
   const [orders, setOrders] = useState<Order[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+
+
+  useEffect(() => {
+    const uri = import.meta.env.DEV ? 'http://localhost:3333' : import.meta.env.API_URL;
+    const io  = socketIo(uri, {
+      transports: ['websocket'],
+    });
+
+    io.on('orders@new', (order) => {
+      toast('Novo pedido cadastrado')
+      setOrders(prevState => prevState.concat(order))
+    })
+  }, [])
 
   useEffect(() => {
     setIsLoading(true);
@@ -36,6 +51,10 @@ export function Orders () {
     }))
   }
 
+  function handleOrderDelete(orderId: string) {
+    setOrders(prevState => prevState.filter(order => order._id !== orderId));
+  }
+
   if(isLoading) return null;
 
   return (
@@ -44,21 +63,25 @@ export function Orders () {
         status="WAITING"
         orders={waiting}
         onUpdateOrCancelOrder={handleOrdersExhibition}
+        onDeleteOrder={handleOrderDelete}
         />
       <OrdersBoard
         status="IN_PRODUCTION"
         orders={inProduction}
         onUpdateOrCancelOrder={handleOrdersExhibition}
+        onDeleteOrder={handleOrderDelete}
         />
       <OrdersBoard
         status="DONE"
         orders={done}
         onUpdateOrCancelOrder={handleOrdersExhibition}
+        onDeleteOrder={handleOrderDelete}
         />
       <OrdersBoard
         status="CANCELED"
         orders={canceled}
         onUpdateOrCancelOrder={handleOrdersExhibition}
+        onDeleteOrder={handleOrderDelete}
       />
     </Container>
   )
